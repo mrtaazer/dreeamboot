@@ -6,11 +6,11 @@ const cors = require('chalk');
 var prefix = ("!")
 const fs = require('fs')
 
-client.on('ready', () =>{
-  console.log(`Estou ativado! <${client.user.username}>`);
+bot.on('ready', () =>{
+  console.log(`Estou ativado! <${bot.user.username}>`);
   bot.user.setActivity("@ServidoresDream", {type: "PLAYING"});
 });
-client.commands = new Discord.Collection();
+bot.commands = new Discord.Collection();
 fs.readdir("./comandos", (err, files) => {
   if(err) console.error(err);
   let jsfiles = files.filter(f => f.split(".").pop() === "js");
@@ -18,14 +18,14 @@ fs.readdir("./comandos", (err, files) => {
     console.log (cors.bgRed("@Nenhum comando carregado"));
     return;
   }
-  console.log(cors.bgRed(`@Carregado ${jsfiles.length} comando(s)!`));
+  bot.log(cors.bgRed(`@Carregado ${jsfiles.length} comando(s)!`));
   jsfiles.forEach((f, i) => {
     let props = require(`./comandos/${f}`);
     bot.commands.set(props.help.name, props)
   });
 });
 
-client.on("message", async(message) =>{
+bot.on("message", async(message) =>{
   if (message.author.bot) return;
   if (message.channel.type === "dm") return;
 
@@ -39,7 +39,7 @@ cmd.run(bot, message, args);
 });
 
 
-client.on('guildMemberAdd', member =>{
+bot.on('guildMemberAdd', member =>{
   let channel = member.guild.channels.find('name', 'boas-vindas');
   let memberavatar = member.user.avatarURL
       if (!channel) return;
@@ -52,13 +52,13 @@ client.on('guildMemberAdd', member =>{
       channel.sendEmbed(embed);
 });
 
-client.on('guildMemberAdd', member => {
+bot.on('guildMemberAdd', member => {
 
     console.log(`${member}`, "entrou!" + `${member.guild.name}`)
 
 });
 
-client.on('guildMemberAdd', member =>{
+bot.on('guildMemberAdd', member =>{
   let embed = new Discord.RichEmbed()
   .setColor('#2fd12c')
   .setDescription(`Olá. Seja **bem-vindo(a)** ao Discord da Rede Dream!
@@ -76,4 +76,4 @@ Caso tenha alguma dúvida em relação à rede, dirija-se ao chat #dúvidas para
   member.sendEmbed(embed);
 });
 
-client.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN);
