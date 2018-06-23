@@ -6,11 +6,11 @@ const cors = require('chalk');
 var prefix = ("!")
 const fs = require('fs')
 
-bot.on('ready', () =>{
-  console.log(`Estou ativado! <${bot.user.username}>`);
+client.on('ready', () =>{
+  console.log(`Estou ativado! <${client.user.username}>`);
   bot.user.setActivity("@ServidoresDream", {type: "PLAYING"});
 });
-bot.commands = new Discord.Collection();
+client.commands = new Discord.Collection();
 fs.readdir("./comandos", (err, files) => {
   if(err) console.error(err);
   let jsfiles = files.filter(f => f.split(".").pop() === "js");
@@ -25,7 +25,7 @@ fs.readdir("./comandos", (err, files) => {
   });
 });
 
-bot.on("message", async(message) =>{
+client.on("message", async(message) =>{
   if (message.author.bot) return;
   if (message.channel.type === "dm") return;
 
@@ -39,7 +39,7 @@ cmd.run(bot, message, args);
 });
 
 
-bot.on('guildMemberAdd', member =>{
+client.on('guildMemberAdd', member =>{
   let channel = member.guild.channels.find('name', 'boas-vindas');
   let memberavatar = member.user.avatarURL
       if (!channel) return;
@@ -52,13 +52,13 @@ bot.on('guildMemberAdd', member =>{
       channel.sendEmbed(embed);
 });
 
-bot.on('guildMemberAdd', member => {
+client.on('guildMemberAdd', member => {
 
     console.log(`${member}`, "entrou!" + `${member.guild.name}`)
 
 });
 
-bot.on('guildMemberAdd', member =>{
+client.on('guildMemberAdd', member =>{
   let embed = new Discord.RichEmbed()
   .setColor('#2fd12c')
   .setDescription(`Olá. Seja **bem-vindo(a)** ao Discord da Rede Dream!
@@ -76,4 +76,4 @@ Caso tenha alguma dúvida em relação à rede, dirija-se ao chat #dúvidas para
   member.sendEmbed(embed);
 });
 
-bot.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
